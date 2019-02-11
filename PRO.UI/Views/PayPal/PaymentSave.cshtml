@@ -1,0 +1,122 @@
+﻿@model PRO.UI.Models.MembershipContactInfoModel
+@{
+    ViewBag.Title = "PayPal Payment";
+}
+
+
+<h2>Account Confirmation</h2>
+
+@if (ViewBag.ErrorMessage != "")
+{
+    <h4><span class="label label-danger">ERROR: @ViewBag.ErrorMessage</span></h4>
+}
+
+@using (Html.BeginForm("ContactInfo", "Membership", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.MembershipId, new { @Value = Model.MembershipId })
+    @Html.HiddenFor(model => model.Price, new { @Value = Model.Price })
+    @Html.HiddenFor(model => model.Email, new { @Value = Model.Email })
+    @Html.HiddenFor(model => model.City, new { @Value = Model.City })
+    @Html.HiddenFor(model => model.FirstName, new { @Value = Model.FirstName })
+    @Html.HiddenFor(model => model.LastName, new { @Value = Model.LastName })
+    @Html.HiddenFor(model => model.TokenID, new { @Value = Model.TokenID })
+    @Html.HiddenFor(model => model.GatewayId, new { @Value = Model.GatewayId })
+    @Html.HiddenFor(model => model.GatewayName, new { @Value = Model.GatewayName })
+
+    <div class="form-horizontal">
+        <h4>Your contact information.</h4>
+        <hr />
+        <div class="form-group">
+            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.Email</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("FirstName", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.FirstName</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("LastName", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.LastName</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("City", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.City</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Back" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.ErrorMessage == "")
+{
+    <form method="POST" action="@Url.Action("PaymentSend")" id="payment-form">
+        @Html.AntiForgeryToken()
+        <span class="payment-errors"></span>
+
+        <div class="form-horizontal">
+            <h4>Payment Confirmation</h4>
+            <hr />
+
+            <div class="form-group">
+                @Html.Label("Membership", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="controls">
+                        <p class="form-control-static">@Model.MembershipTitle</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Price", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="controls">
+                        <p class="form-control-static">@Model.Price</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit Payment" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="Email" value="@Model.Email" />
+        <input type="hidden" name="City" value="@Model.City" />
+        <input type="hidden" name="FirstName" value="@Model.FirstName" />
+        <input type="hidden" name="LastName" value="@Model.LastName" />
+        <input type="hidden" name="TokenID" value="@Model.TokenID" />
+        <input type="hidden" name="TransactionToken" value="@Model.TransactionToken" />
+        <input type="hidden" name="Price" value="@Model.Price" />
+        <input type="hidden" name="MembershipId" value="@Model.MembershipId" />
+        <input type="hidden" name="MembershipTitle" value="@Model.MembershipTitle" />
+    </form>
+
+}
+
+

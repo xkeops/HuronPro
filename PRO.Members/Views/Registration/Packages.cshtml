@@ -1,0 +1,48 @@
+﻿@model IEnumerable<PRO.Members.Models.Membership>
+@{
+    ViewBag.Title = "Index";
+    int ind = 0;
+    string clsCss = "success";
+    //text-info, btn-info, label-info
+    //info, danger, warning, primar, success
+}
+
+<h2>Membership</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-sm-12">
+        @foreach (var package in Model)
+        {
+            if (ind % 4 == 0)
+            {
+                @Html.Raw("<div class=\"row\">");
+            }
+            <div class="col-md-3">
+                <div class="well">
+                    <h4 class="text-@clsCss"><span class="label label-@clsCss pull-right">$@package.Price</span> @package.Title </h4>
+                    <p>@package.Description</p>
+                    @{
+                        PRO.Members.Models.BufferRegister @BufferReg = new PRO.Members.Models.BufferRegister();
+                        @BufferReg.BufferMembership = @package;
+                    }
+
+                    @using (Html.BeginForm("BufferInit", "Registration", FormMethod.Post, "BufferRegister"))
+                    {
+                        @Html.Hidden("BufferMembership.MembershipId", @package.MembershipID)
+                        @Html.Hidden("BufferMembership.Title", @package.Title)
+                        @Html.Hidden("BufferMembership.Price", @package.Price)
+                        @Html.Hidden("BufferMembership.Description", @package.Description)
+                        <button class="btn btn-@clsCss" type="submit">Select</button>
+                    }
+                    @*<button class="btn btn-@clsCss" type="button" onclick="location.href='@Url.Action("BufferInit", new {mid=@package.MembershipID})'">Select</button>*@
+                </div>
+            </div>
+            if (ind % 4 == 3)
+            { @Html.Raw("</div>");
+            }
+            ind++;
+        }
+    </div>
+</div>

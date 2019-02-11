@@ -1,0 +1,84 @@
+﻿@model PRO.Members.Models.BufferRegister
+@{
+    ViewBag.Title = "Contact Information";
+    Guid mToken;
+
+    if (Model.TokenID != null)
+    {
+        mToken = Model.TokenID;
+    }
+    
+}
+
+<h2>Contact Information - @Model.BufferMembership.Title</h2>
+
+@{
+    string PayGateway = "";
+    if (Model.BufferGateway.GatewayName.ToLower() == "paypal")
+    {
+        PayGateway = "PayPal";
+    }
+    if (Model.BufferGateway.GatewayName.ToLower() == "stripe")
+    {
+        PayGateway = "PayStripe";
+    }
+}
+
+@using (Html.BeginForm("BufferSave", "Registration"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Please fill out your contact information.</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BufferMembership.MembershipID)
+        @Html.HiddenFor(model => model.BufferMembership.Title)
+        @Html.HiddenFor(model => model.BufferMembership.Price)
+        @*@Html.Hidden("TokenID", mToken)*@
+        @Html.HiddenFor(model => model.TokenID)
+        @Html.HiddenFor(model => model.BufferGateway.GatewayId)
+        @Html.HiddenFor(model => model.BufferGateway.GatewayName)
+        <div class="form-group">
+            @Html.LabelFor(model => model.BufferContact.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BufferContact.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BufferContact.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BufferContact.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BufferContact.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BufferContact.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BufferContact.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BufferContact.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BufferContact.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BufferContact.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BufferContact.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BufferContact.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-3">
+                <input type="button" value="Back" class="btn btn-default pull-left" onclick="location.href='@Url.Action("Packages")'" />
+                <input type="submit" value="Next" class="btn btn-default pull-right" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+

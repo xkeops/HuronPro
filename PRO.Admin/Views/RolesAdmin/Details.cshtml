@@ -1,0 +1,58 @@
+﻿@model PRO.Admin.Models.ApplicationRole
+@{
+    ViewBag.Title = "Details";
+     //Layout = "~/Views/Shared/AdminLTE/_LTEAdminLayout.cshtml";
+}
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">@Html.ActionLink("Create Role", "Create")</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Description)
+                            </dd>
+                        </dl>
+                    </div>
+                    <h4>List of users in this role</h4>
+                    @if (ViewBag.UserCount == 0)
+                    {
+                        <hr />
+                        <p>No users found in this role.</p>
+                    }
+                    <table class="table">
+                        @foreach (var item in ViewBag.Users)
+                        {
+                            <tr>
+                                <td>
+                                    @item.UserName
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</section><!-- /.content -->

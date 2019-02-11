@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "AddRoleToUser";
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+
+Success::@ViewBag.Success
+
+@if (@ViewBag.Success=="PASS") {
+    <script>
+
+        var callerWindow = window.top;
+        var passVal = '@ViewBag.User.Id';
+        callerWindow.refreshRoleIframe(passVal);
+        parent.jQuery.fancybox.close();
+
+    </script>
+}
+
+@if (@ViewBag.Success == "EXIST")
+{
+    <script>
+
+        parent.jQuery.fancybox.close();
+        //alert('Role already assigned to this User');
+
+    </script>
+}

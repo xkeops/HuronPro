@@ -1,0 +1,101 @@
+﻿@model IEnumerable<PRO.Admin.Models.ApplicationRole>
+@{
+    ViewBag.Title = "Roles Management";
+    //Layout = "~/Views/Shared/AdminLTE/_LTEAdminLayout.cshtml";
+}
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">@Html.ActionLink("Create Role", "Create")</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered table-hover">
+                        <tr>
+                            <th style="width:8%">&nbsp;</th>
+                            <th style="width:37%">
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th style="width:55%">
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <button onclick="return ExpFrame('@Url.Action("ListUsersByRoleID", "RolesAdmin", new {id=@item.Id})','expfra_@item.Id','exprow_@item.Id', 'expspan_@item.Id');">
+                                        <span class="glyphicon glyphicon-plus" id="expspan_@item.Id"></span>
+                                    </button>
+                                    <button onclick="location.href='@Url.Action("Edit", new {id = item.Id})'"><span class="glyphicon glyphicon-edit"></span></button>
+                                    <button onclick="location.href='@Url.Action("Delete", new {id = item.Id})'"><span class="glyphicon glyphicon-remove"></span></button>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                            </tr>
+                            <tr id="exprow_@item.Id" style="display:none">
+                                <td colspan="3">
+                                    <iframe id="expfra_@item.Id" src="~/Content/blankwait.html" style="border:0px; width:100%; "></iframe>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</section><!-- /.content -->
+
+<a href="#" id="lnkAddUserToRole" class="fancybox fancybox.iframe" style="display:none">Add User To Role</a>
+<input type="hidden" id="currentRoleID" />
+
+@section Scripts {
+
+    <script>
+    function addToRole(roleid) {
+        $('#currentRoleID').val(roleid);
+        $("#lnkAddUserToRole").trigger('click');
+    }
+
+    $(document).ready(function () {
+        $('#lnkAddUserToRole').fancybox({
+            'autoScale': false,
+            'width': 550,
+            'height': 550,
+            'closeBtn': false,
+            'type': 'iframe',
+            iframe: {
+                preload: false // fixes issue with iframe and IE
+            },
+            beforeLoad: function () {
+                var clickedID = $(this.element).attr("id");
+                //alert(clickedID);
+                var roleid = $('#currentRoleID').val();
+
+                if (clickedID.indexOf('AddUserToRole') > 0) {
+                    var url = "@Url.Action("SearchUserBox", "UsersAdmin")?roleid="+roleid;
+                    this.href = url;
+                }
+                return true;
+            }
+        });
+    })
+
+        function refreshRoleIframe(roleid) {
+            var randomnumber = Math.floor(Math.random() * 100);
+            $('#expfra_' + roleid).attr('src', '@Url.Action("ListUsersByRoleID", "RolesAdmin")?id=' + roleid);
+        }
+
+    </script>
+
+}

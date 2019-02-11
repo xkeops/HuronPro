@@ -1,0 +1,82 @@
+﻿@model PRO.Admin.Models.ApplicationUser
+@{
+    ViewBag.Title = "Search Users";
+    //Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+
+<h2>Search User</h2>
+<hr />
+
+
+@*RoleId: @ViewBag.Role.Id
+<br />
+RoleName: @ViewBag.Role.Name*@
+
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                @Html.Hidden("roleid", new { @value = @ViewBag.Role.Id })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            }
+        </div>
+    <!-- /.col -->
+    </div>
+
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            List of Users
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.UsersCount > 0)
+                    {
+                        foreach (var item in ViewBag.Users)
+                        {
+                            <tr>
+                                <td style="width:2%;">
+                                    <button onclick="location.href='@Url.Action("AddUserToRole", "UsersAdmin", new { userid = item.Id, roleid=ViewBag.Role.Id})'" title="Add User to Role"><span class="glyphicon glyphicon-plus"></span></button>
+                                </td>
+                                <td>
+                                    @item.UserName
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+<script>
+
+    function AddUserToRole(userid, roleid) {
+        if (!userid) { alert('User not specified'); return false }
+        if (!roleid) { alert('Role not specified'); return false }
+        //AddUserToRole('item.Id', 'ViewBag.Role.Id');
+        //if (confirm('Add this user to @ViewBag.Role.Name role?'))
+        location.href = "@Url.Action("AddUserToRole", "UsersAdmin", new { userid = "+userid+", roleid="+roleid+"})";
+        alert('close');
+        top.refreshRoleIframe();
+        return true
+    }
+
+</script>

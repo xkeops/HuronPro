@@ -1,0 +1,57 @@
+﻿@model PRO.Members.Models.BufferRegister
+
+<form method="POST" action="@Url.Action("PaymentReceive","PayStripe" )" id="payment-form">
+
+    <div class="form-horizontal">
+        <h4>Payment Confirmation</h4>
+        <hr />
+
+        <div class="col-md-offset-2 col-md-10">
+            <span class="payment-errors"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">Card Number</div>
+            <div class="col-md-10">
+                <input type="text" size="20" data-stripe="number">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">Expiration (MM/YY)</div>
+            <div class="col-md-10">
+                <input type="text" size="2" data-stripe="exp_month"> / <input type="text" size="2" data-stripe="exp_year">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">CVC</div>
+            <div class="col-md-10">
+                <input type="text" size="4" data-stripe="cvc">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit Payment" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="name" value="@Model.BufferContact.FirstName @Model.BufferContact.LastName" data-stripe="name" />
+    @Html.HiddenFor(model => model.BufferMembership.MembershipID, new { @Value = Model.BufferMembership.MembershipID })
+    @Html.HiddenFor(model => model.BufferMembership.Title, new { @Value = Model.BufferMembership.Title })
+    @Html.HiddenFor(model => model.BufferMembership.Price, new { @Value = Model.BufferMembership.Price })
+    @Html.HiddenFor(model => model.BufferContact.Email, new { @Value = Model.BufferContact.Email })
+    @Html.HiddenFor(model => model.BufferContact.City, new { @Value = Model.BufferContact.City })
+    @Html.HiddenFor(model => model.BufferContact.FirstName, new { @Value = Model.BufferContact.FirstName })
+    @Html.HiddenFor(model => model.BufferContact.LastName, new { @Value = Model.BufferContact.LastName })
+    @Html.HiddenFor(model => model.TokenID, new { @Value = Model.TokenID })
+    @Html.HiddenFor(model => model.BufferGateway.GatewayId, new { @Value = Model.BufferGateway.GatewayId })
+    @Html.HiddenFor(model => model.BufferGateway.GatewayName, new { @Value = Model.BufferGateway.GatewayName })
+
+
+</form>
+
+
+

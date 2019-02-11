@@ -1,0 +1,14 @@
+﻿@model PRO.Members.Models.BufferRegister
+@{
+    ViewBag.Title = "PaymentReceive";
+}
+
+<h2>PaymentReceive</h2>
+
+@foreach (var property in ViewData.ModelMetadata.Properties)
+{
+    <div class="editor-line">
+        <label>@(property.DisplayName ?? property.PropertyName)</label>
+        @Html.Editor(property.PropertyName)
+    </div>
+}

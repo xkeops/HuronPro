@@ -1,0 +1,14 @@
+﻿dan.p.b@gmail-business.com / 123poster
+https://www.sandbox.paypal.com/
+
+
+API
+
+Username:
+dan.p.b_api1.gmail-business.com
+Password:
+595NHDCZQUZGM4QZ
+Signature:
+AFcWxV21C7fd0v3bYYYRCpSSRl31Am.wVsyYEVgjySzw5m3Tj9q9KCk5
+
+dan.pitu-buyer@gmail.com

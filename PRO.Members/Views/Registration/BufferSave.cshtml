@@ -1,0 +1,95 @@
+﻿@model PRO.Members.Models.BufferRegister
+@{
+    ViewBag.Title = "Payment Confirmation";
+}
+
+<h2>Account Confirmation</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <h4><span class="label label-danger">ERROR: @ViewBag.ErrorMessage</span></h4>
+}
+
+@using (Html.BeginForm("BufferInit", "Registration", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.BufferMembership.MembershipID, new { @Value = Model.BufferMembership.MembershipID })
+    @Html.HiddenFor(model => model.BufferMembership.Title, new { @Value = Model.BufferMembership.Title })
+    @Html.HiddenFor(model => model.BufferMembership.Price, new { @Value = Model.BufferMembership.Price })
+    @Html.HiddenFor(model => model.BufferContact.Email, new { @Value = Model.BufferContact.Email })
+    @Html.HiddenFor(model => model.BufferContact.City, new { @Value = Model.BufferContact.City })
+    @Html.HiddenFor(model => model.BufferContact.FirstName, new { @Value = Model.BufferContact.FirstName })
+    @Html.HiddenFor(model => model.BufferContact.LastName, new { @Value = Model.BufferContact.LastName })
+    @Html.HiddenFor(model => model.TokenID, new { @Value = Model.TokenID })
+    @Html.HiddenFor(model => model.BufferGateway.GatewayId, new { @Value = Model.BufferGateway.GatewayId })
+    @Html.HiddenFor(model => model.BufferGateway.GatewayName, new { @Value = Model.BufferGateway.GatewayName })
+
+    <div class="form-horizontal">
+        <h4>Your contact information.</h4>
+        <hr />
+        <div class="form-group">
+            @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.BufferContact.Email</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("FirstName", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.BufferContact.FirstName</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("LastName", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.BufferContact.LastName</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("City", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="controls">
+                    <p class="form-control-static">@Model.BufferContact.City</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Back" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@switch (@Model.BufferGateway.GatewayName)
+{
+    case "Paypal":
+        Html.RenderPartial("PayPal");
+        break;
+    case "Stripe":
+        Html.RenderPartial("PayStripe");
+        break;
+}
+
+@if (string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+}
+
+@section Scripts
+{
+    @switch (@Model.BufferGateway.GatewayName)
+    {
+        case "Stripe":
+            @Html.Partial("_jsstripe")
+            break;
+    }
+}

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PRO.UI.Models.MembershipModel>
+@{
+    ViewBag.Title = "Index";
+    int ind = 0;
+    string clsCss = "success";
+    //text-info, btn-info, label-info
+    //info, danger, warning, primar, success
+}
+
+<h2>Membership</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-sm-12">
+@foreach (var Membership in Model)
+{
+    if (ind % 4 == 0)
+    {
+        @Html.Raw("<div class=\"row\">");
+    }
+            <div class="col-md-3">
+                <div class="well">
+                    <h4 class="text-@clsCss"><span class="label label-@clsCss pull-right">$@Membership.Price</span> @Membership.Title </h4>
+                    <p>@Membership.Description</p>
+                    <button class="btn btn-@clsCss" type="button" onclick="location.href='@Url.Action("ContactInfo", "Membership", new {mid=@Membership.MembershipID})'">Select</button>
+                </div>
+            </div>
+    if (ind % 4 == 3)
+    { @Html.Raw("</div>");
+    }
+    ind++;
+}
+    </div>
+</div>

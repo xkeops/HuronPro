@@ -1,0 +1,20 @@
+﻿@model PRO.UI.Models.MembershipContactInfoModel
+
+@{
+    ViewBag.Title = "ReceiveTest";
+}
+
+<h2>ReceiveTest</h2>
+
+@if (ViewBag.ErrorMessage != "")
+{
+    <p>ERROR: @ViewBag.ErrorMessage</p>
+}
+<p>
+    @ViewBag.PaymentStatus
+</p>
+
+<p>
+    @Model.Email
+</p>
+ 
